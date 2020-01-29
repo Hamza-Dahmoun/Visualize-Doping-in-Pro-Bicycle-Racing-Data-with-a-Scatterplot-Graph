@@ -15,7 +15,27 @@
 
 <body>
     <div></div>
+    <script>
+        console.log(fetchData());
+        function fetchData() {
+            let url = "https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/cyclist-data.json";
+            fetch(url).then(response => response.json()).then(data => {
+                console.log(data);
+                //now lets visualize the data we got from the api (it's an array)
+                //visualizeData(data);
+            });
 
+            //data.data becuz: first data is the argument of "then", second data is a property in the returned object, this property is an array
+            /*from fcc
+            The first line is the one that makes the request. So, fetch(URL) makes a GET request to the URL specified. The method returns a Promise.
+    
+            After a Promise is returned, if the request was successful, the then method is executed, which takes the response and converts it to JSON format.
+    
+            The then method also returns a Promise, which is handled by the next then method.
+            */
+        }
+
+    </script>
 </body>
 
 </html>
