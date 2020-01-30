@@ -16,13 +16,13 @@
 <body>
     <div></div>
     <script>
-        console.log(fetchData());
+        fetchData();
         function fetchData() {
             let url = "https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/cyclist-data.json";
             fetch(url).then(response => response.json()).then(data => {
                 console.log(data);
                 //now lets visualize the data we got from the api (it's an array)
-                //visualizeData(data);
+                visualizeData(data);
             });
 
             //data.data becuz: first data is the argument of "then", second data is a property in the returned object, this property is an array
@@ -33,6 +33,18 @@
     
             The then method also returns a Promise, which is handled by the next then method.
             */
+        }
+        function visualizeData(dataset) {
+            const w = 800;
+            const h = 500;
+            const padding = 50;
+
+
+
+            //adding svg tag to the body with height and width
+            const svg = d3.selectAll("div").append("svg").attr("width", w).attr("height", h);
+
+            
         }
 
     </script>
