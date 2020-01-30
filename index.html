@@ -44,7 +44,13 @@
             //adding svg tag to the body with height and width
             const svg = d3.selectAll("div").append("svg").attr("width", w).attr("height", h);
 
-            
+            //lets now draw the xAxis
+            //1- create the xScale, it takes the max value as the max years in the dataset, min value is the min year in the dataset
+            const xScale = d3.scaleLinear().domain([d3.min(dataset, d => d.Year), d3.max(dataset, d => d.Year)]).range([padding, w - padding]);
+            //2- create the xAxis which takes the xScale as a measure
+            const xAxis = d3.axisBottom(xScale);
+            //3- draw the xAxis with a line
+            svg.append("g").attr("transform", "translate(0, " + (h - padding) + ")").call(xAxis);
         }
 
     </script>
