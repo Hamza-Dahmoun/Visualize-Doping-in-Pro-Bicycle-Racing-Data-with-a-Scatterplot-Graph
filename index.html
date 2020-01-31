@@ -10,10 +10,12 @@
             flex-direction: row;
             justify-content: center;
         }
+
         .tooltip {
             position: absolute;
-            text-align: center;
-            width: 60px;
+            text-align: left;
+            width: auto;
+            max-width:220px;
             height: auto;
             padding: 2px;
             font: 12px sans-serif;
@@ -23,6 +25,10 @@
             padding: 6px;
             pointer-events: none;
             opacity: 0;
+            display:block;
+        }
+        .tooltip p{
+            margin-top:1px;margin-bottom: 4px;
         }
     </style>
 </head>
@@ -104,15 +110,26 @@
                 .attr("transform", "translate(" + (padding) + ",0)");
 
 
-                //V- lets now draw the circles
-                svg.selectAll("circle").data(dataset).enter().append("circle")//this will make d3 insert circle svg elements according to the length of dataset array
-                .attr("cx", (d)=>xScale(d.Year))//a circle will be positionned in xAxis according to xScale(years)
-                .attr("cy", (d)=>yScale(d.Seconds*1000))//a circle will be positionned in yAxis according to yScale(milliseconds)
-                .attr("r", (d)=>6)//this is the size of the circle
+            //V- lets now draw the circles
+            svg.selectAll("circle").data(dataset).enter().append("circle")//this will make d3 insert circle svg elements according to the length of dataset array
+                .attr("cx", (d) => xScale(d.Year))//a circle will be positionned in xAxis according to xScale(years)
+                .attr("cy", (d) => yScale(d.Seconds * 1000))//a circle will be positionned in yAxis according to yScale(milliseconds)
+                .attr("r", (d) => 6)//this is the size of the circle
                 .attr("stroke", "black")
-                .attr("fill","blue")
+                .attr("fill", "blue")
                 .style("opacity", "0.6")
-                
+                //lets add mouseOver and mouseOut events
+                .on("mouseover", function (d) {
+                    //we'll display the div stored in the variable tooltip
+                    tooltip.html("<p>"+d.Name + ": " + d.Nationality + "</p><p>Year: " + d.Year + ", Time: " + d.Time + "</p><p>" + d.Doping+"<p/>")//setting the text inside the tooltip div
+                        /*
+                             THIS USES THE MOUSE POSITION AND ADD 10 PX TO IT AND SHOW THE TOOLTIP DIV*/
+                        .style("left", d3.event.pageX + 10 + "px")
+                        .style("top", d3.event.pageY + 10 + "px")
+                        .transition()
+                        .duration(200)
+                        .style("opacity", "0.9")
+                })
                 ;
         }
 
