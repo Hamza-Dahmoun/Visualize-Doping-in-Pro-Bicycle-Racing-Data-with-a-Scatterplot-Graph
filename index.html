@@ -41,10 +41,10 @@
 
 
 
-            //adding svg tag to the body with height and width
+            //I- adding svg tag to the body with height and width
             const svg = d3.selectAll("div").append("svg").attr("width", w).attr("height", h);
 
-            //lets now draw the xAxis
+            //II- lets now draw the xAxis
             //1- create the xScale, it takes the max value as the max years in the dataset, min value is the min year in the dataset
             //(I used min-1 and max+1 to have the same result as in the test)
             const xScale = d3.scaleLinear()
@@ -55,7 +55,7 @@
             //3- draw the xAxis with a line
             svg.append("g").attr("transform", "translate(0, " + (h - padding) + ")").call(xAxis);
 
-            //lets now draw the yAxis
+            //III- lets now draw the yAxis
             //1- create the yScale, it has time values (mm:ss), from the max time to min time (it is reversed, max time is in the bottom, min time is in the top)
             const timeFormat = d3.timeFormat("%M:%S"); //Y-axis uses "12:34" format for time.
             //Defines elements for the y-axis.
@@ -79,6 +79,15 @@
                 .call(yAxis)
                 .attr("id", "y-axis")
                 .attr("transform", "translate(" + (padding) + ",0)");
+
+
+                //V- lets now draw the circles
+                svg.selectAll("circle").data(dataset).enter().append("circle")//this will make d3 insert circle svg elements according to the length of dataset array
+                .attr("cx", (d)=>xScale(d.Year))//a circle will be positionned in xAxis according to xScale(years)
+                .attr("cy", (d)=>yScale(d.Seconds*1000))//a circle will be positionned in yAxis according to yScale(milliseconds)
+                .attr("r", (d)=>6)//this is the size of the circle
+                .attr("stroke", "black")
+                .attr("fill","blue");
         }
 
     </script>
