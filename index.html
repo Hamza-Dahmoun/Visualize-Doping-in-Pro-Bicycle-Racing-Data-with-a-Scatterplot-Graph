@@ -4,11 +4,12 @@
 <head>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.15.0/d3.min.js"></script>
     <style>
-        div {
+        .div-svg-container {
             border: 1px solid #efefef;
             display: flex;
             flex-direction: row;
             justify-content: center;
+            margin-top:50px;
         }
 
         .tooltip {
@@ -34,7 +35,7 @@
 </head>
 
 <body>
-    <div></div>
+    <div class="div-svg-container"></div>
     <script>
         fetchData();
         function fetchData() {
@@ -82,7 +83,7 @@
             //2- create the xAxis which takes the xScale as a measure
             const xAxis = d3.axisBottom(xScale);
             //3- draw the xAxis with a line
-            svg.append("g").attr("transform", "translate(0, " + (h - padding) + ")").call(xAxis);
+            svg.append("g").attr("id", "x-axis").attr("transform", "translate(0, " + (h - padding) + ")").call(xAxis);
 
             //III- lets now draw the yAxis
             //1- create the yScale, it has time values (mm:ss), from the max time to min time (it is reversed, max time is in the bottom, min time is in the top)
@@ -110,13 +111,14 @@
                 .attr("transform", "translate(" + (padding) + ",0)");
 
 
-            //V- lets now draw the circles
+            //IV- lets now draw the circles
             svg.selectAll("circle").data(dataset).enter().append("circle")//this will make d3 insert circle svg elements according to the length of dataset array
                 .attr("cx", (d) => xScale(d.Year))//a circle will be positionned in xAxis according to xScale(years)
                 .attr("cy", (d) => yScale(d.Seconds * 1000))//a circle will be positionned in yAxis according to yScale(milliseconds)
                 .attr("r", (d) => 6)//this is the size of the circle
                 .attr("stroke", "black")
                 .attr("fill", "blue")
+                .attr("class", "dot")//it has no effect, only to pass the test, and I prefered not to work with it and work directly with "attr" to control the look just for learning purpose
                 .style("opacity", "0.6")
                 //lets add mouseOver and mouseOut events
                 .on("mouseover", function (d) {
@@ -138,6 +140,25 @@
                     .style("opacity", "0");//this is the transition: opacity will be decreased from 0.9 to 0.0 again
                 })
                 ;
+
+                //V- lets add the big title (and small one beneath it) of the chart
+                svg.append("text")
+                .attr("x", w/2)
+                .attr("y", padding/2)
+                .attr("text-anchor", "middle")
+                .attr("id","title")
+                .style("font-size","28px")
+                .text("Doping in Professional Bicycle Racing");
+                svg.append("text")
+                .attr("x", w/2)
+                .attr("y", padding)
+                .attr("text-anchor", "middle")
+                .attr("id","small-title")
+                .style("font-size","20px")
+                .text("35 Fastest times up Alpe d'Huez");
+
+
+                
         }
 
     </script>
