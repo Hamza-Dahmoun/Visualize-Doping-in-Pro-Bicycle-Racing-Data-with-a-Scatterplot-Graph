@@ -46,11 +46,39 @@
 
             //lets now draw the xAxis
             //1- create the xScale, it takes the max value as the max years in the dataset, min value is the min year in the dataset
-            const xScale = d3.scaleLinear().domain([d3.min(dataset, d => d.Year), d3.max(dataset, d => d.Year)]).range([padding, w - padding]);
+            //(I used min-1 and max+1 to have the same result as in the test)
+            const xScale = d3.scaleLinear()
+                .domain([d3.min(dataset, d => d.Year) - 1, d3.max(dataset, d => d.Year) + 1])
+                .range([padding, w - padding]);
             //2- create the xAxis which takes the xScale as a measure
             const xAxis = d3.axisBottom(xScale);
             //3- draw the xAxis with a line
             svg.append("g").attr("transform", "translate(0, " + (h - padding) + ")").call(xAxis);
+
+            //lets now draw the yAxis
+            //1- create the yScale, it has time values (mm:ss), from the max time to min time (it is reversed, max time is in the bottom, min time is in the top)
+            const timeFormat = d3.timeFormat("%M:%S"); //Y-axis uses "12:34" format for time.
+            //Defines elements for the y-axis.
+            let milliseconds = dataset.map(function (d, i) { //An array of data from Seconds.
+                return dataset[i].Seconds * 1000; //Multiplied by 1000 to convert to miliseconds.
+            });
+            //the yScale uses milliseconds array as a domain
+            let yScale = d3.scaleTime() //Scale for the y-axis.
+                .domain(//Uses longest and shortest times from the milliseconds array.
+                    [
+                        d3.max(milliseconds),
+                        d3.min(milliseconds)
+                    ]
+                )
+                .range([h - padding, padding]);
+            //yAxis displays data from yScale's domain (which are in milliseconds) it displays them in mm:ss format
+            let yAxis = d3.axisLeft(yScale) //The y-axis.
+                .tickFormat(timeFormat) //Y-axis uses "12:34" format for time.
+            //drawing the yaxis
+            svg.append("g") //Appends the y-axis to the SVG file.
+                .call(yAxis)
+                .attr("id", "y-axis")
+                .attr("transform", "translate(" + (padding) + ",0)");
         }
 
     </script>
