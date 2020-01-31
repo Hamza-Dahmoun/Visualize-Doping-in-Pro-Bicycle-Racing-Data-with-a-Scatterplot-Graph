@@ -9,14 +9,14 @@
             display: flex;
             flex-direction: row;
             justify-content: center;
-            margin-top:50px;
+            margin-top: 50px;
         }
 
         .tooltip {
             position: absolute;
             text-align: left;
             width: auto;
-            max-width:220px;
+            max-width: 220px;
             height: auto;
             padding: 2px;
             font: 12px sans-serif;
@@ -26,10 +26,12 @@
             padding: 6px;
             pointer-events: none;
             opacity: 0;
-            display:block;
+            display: block;
         }
-        .tooltip p{
-            margin-top:1px;margin-bottom: 4px;
+
+        .tooltip p {
+            margin-top: 1px;
+            margin-bottom: 4px;
         }
     </style>
 </head>
@@ -56,9 +58,9 @@
             */
         }
         function visualizeData(dataset) {
-            const w = 800;
-            const h = 500;
-            const padding = 50;
+            const w = 850;
+            const h = 600;
+            const padding = 80;
             /*
             the below div is going to be shown when user hover over a circle, it holds the ... & ... value,
             we can do it using circle.append("title").text(...) but the test requires a seperate div that will de shown onmouseover and hidden onmouseout
@@ -123,7 +125,7 @@
                 //lets add mouseOver and mouseOut events
                 .on("mouseover", function (d) {
                     //we'll display the div stored in the variable tooltip
-                    tooltip.html("<p>"+d.Name + ": " + d.Nationality + "</p><p>Year: " + d.Year + ", Time: " + d.Time + "</p><p>" + d.Doping+"<p/>")//setting the text inside the tooltip div
+                    tooltip.html("<p>" + d.Name + ": " + d.Nationality + "</p><p>Year: " + d.Year + ", Time: " + d.Time + "</p><p>" + d.Doping + "<p/>")//setting the text inside the tooltip div
                         /*
                              THIS USES THE MOUSE POSITION AND ADD 10 PX TO IT AND SHOW THE TOOLTIP DIV*/
                         .style("left", d3.event.pageX + 10 + "px")
@@ -132,33 +134,41 @@
                         .duration(200)
                         .style("opacity", "0.9")
                 })
-                .on("mouseout", function(d){
+                .on("mouseout", function (d) {
                     //we'll hide the div stored in the variable tooltip
                     tooltip
-                    .transition()//because we cannot use duration() without using transition()
-                    .duration(300)//duration of transition will be 300ms
-                    .style("opacity", "0");//this is the transition: opacity will be decreased from 0.9 to 0.0 again
+                        .transition()//because we cannot use duration() without using transition()
+                        .duration(300)//duration of transition will be 300ms
+                        .style("opacity", "0");//this is the transition: opacity will be decreased from 0.9 to 0.0 again
                 })
                 ;
 
-                //V- lets add the big title (and small one beneath it) of the chart
-                svg.append("text")
-                .attr("x", w/2)
-                .attr("y", padding/2)
+            //V- lets add the big title (and small one beneath it) of the chart
+            svg.append("text")
+                .attr("x", w / 2)
+                .attr("y", 35)
                 .attr("text-anchor", "middle")
-                .attr("id","title")
-                .style("font-size","28px")
+                .attr("id", "title")
+                .style("font-size", "28px")
                 .text("Doping in Professional Bicycle Racing");
-                svg.append("text")
-                .attr("x", w/2)
-                .attr("y", padding)
+            svg.append("text")
+                .attr("x", w / 2)
+                .attr("y", 65)
                 .attr("text-anchor", "middle")
-                .attr("id","small-title")
-                .style("font-size","20px")
+                .attr("id", "small-title")
+                .style("font-size", "20px")
                 .text("35 Fastest times up Alpe d'Huez");
 
+            //VI- lets add the title of the yAxis
+            svg.append("text")
+                .attr("x", -170)
+                .attr("y", 35)
+                .attr("text-anchor", "middle")
+                .attr("id", "y-axis-title")
+                .style("font-size", "16px")
+                .text("Time in Minutes")
+                .attr("transform", "rotate(-90)")
 
-                
         }
 
     </script>
