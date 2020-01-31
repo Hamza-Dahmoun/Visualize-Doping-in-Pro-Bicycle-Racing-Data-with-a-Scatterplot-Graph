@@ -99,7 +99,7 @@
                 .domain([d3.min(dataset, d => d.Year) - 1, d3.max(dataset, d => d.Year) + 1])
                 .range([padding, w - padding]);
             //2- create the xAxis which takes the xScale as a measure
-            const xAxis = d3.axisBottom(xScale);
+            const xAxis = d3.axisBottom(xScale).tickFormat(d3.format("d")) //Formats years as "YYYY" instead of "Y,YYY"
             //3- draw the xAxis with a line
             svg.append("g").attr("id", "x-axis").attr("transform", "translate(0, " + (h - padding) + ")").call(xAxis);
 
@@ -136,7 +136,9 @@
             //IV- lets now draw the circles
             svg.selectAll("circle").data(dataset).enter().append("circle")//this will make d3 insert circle svg elements according to the length of dataset array
                 .attr("cx", (d) => xScale(d.Year))//a circle will be positionned in xAxis according to xScale(years)
+                .attr("data-xvalue", (d) => d.Year)//used to pass the test
                 .attr("cy", (d) => yScale(d.Seconds * 1000))//a circle will be positionned in yAxis according to yScale(milliseconds)
+                .attr("data-yvalue", (d) => {return new Date(d.Seconds*1000)})//used to pass the test
                 .attr("r", (d) => 6)//this is the size of the circle
                 .attr("stroke", "black")
                 .attr("fill", d=>{
@@ -156,6 +158,7 @@
                         .transition()
                         .duration(200)
                         .style("opacity", "0.9")
+                        .attr("data-year", d.Year)//just to pass the test
                 })
                 .on("mouseout", function (d) {
                     //we'll hide the div stored in the variable tooltip
