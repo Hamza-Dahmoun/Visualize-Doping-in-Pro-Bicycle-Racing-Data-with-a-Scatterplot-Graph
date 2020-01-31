@@ -10,6 +10,20 @@
             flex-direction: row;
             justify-content: center;
         }
+        .tooltip {
+            position: absolute;
+            text-align: center;
+            width: 60px;
+            height: auto;
+            padding: 2px;
+            font: 12px sans-serif;
+            background: lavender;
+            border: 0px;
+            border-radius: 4px;
+            padding: 6px;
+            pointer-events: none;
+            opacity: 0;
+        }
     </style>
 </head>
 
@@ -38,6 +52,15 @@
             const w = 800;
             const h = 500;
             const padding = 50;
+            /*
+            the below div is going to be shown when user hover over a circle, it holds the ... & ... value,
+            we can do it using circle.append("title").text(...) but the test requires a seperate div that will de shown onmouseover and hidden onmouseout
+            */
+            let tooltip = d3
+                .select("body")
+                .append("div")
+                .attr("class", "tooltip")
+                .attr("id", "tooltip");
 
 
 
@@ -88,7 +111,9 @@
                 .attr("r", (d)=>6)//this is the size of the circle
                 .attr("stroke", "black")
                 .attr("fill","blue")
-                .style("opacity", "0.6");
+                .style("opacity", "0.6")
+                
+                ;
         }
 
     </script>
