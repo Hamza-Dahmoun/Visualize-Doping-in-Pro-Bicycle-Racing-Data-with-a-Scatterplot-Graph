@@ -130,6 +130,13 @@
                         .duration(200)
                         .style("opacity", "0.9")
                 })
+                .on("mouseout", function(d){
+                    //we'll hide the div stored in the variable tooltip
+                    tooltip
+                    .transition()//because we cannot use duration() without using transition()
+                    .duration(300)//duration of transition will be 300ms
+                    .style("opacity", "0");//this is the transition: opacity will be decreased from 0.9 to 0.0 again
+                })
                 ;
         }
 
