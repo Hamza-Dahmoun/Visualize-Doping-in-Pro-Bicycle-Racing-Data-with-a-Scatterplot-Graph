@@ -58,6 +58,7 @@
             */
         }
         function visualizeData(dataset) {
+
             const w = 850;
             const h = 600;
             const padding = 80;
@@ -73,8 +74,15 @@
 
 
 
+
+
+
             //I- adding svg tag to the body with height and width
             const svg = d3.selectAll("div").append("svg").attr("width", w).attr("height", h);
+
+
+
+
 
             //II- lets now draw the xAxis
             //1- create the xScale, it takes the max value as the max years in the dataset, min value is the min year in the dataset
@@ -113,13 +121,20 @@
                 .attr("transform", "translate(" + (padding) + ",0)");
 
 
+
+
+
+
             //IV- lets now draw the circles
             svg.selectAll("circle").data(dataset).enter().append("circle")//this will make d3 insert circle svg elements according to the length of dataset array
                 .attr("cx", (d) => xScale(d.Year))//a circle will be positionned in xAxis according to xScale(years)
                 .attr("cy", (d) => yScale(d.Seconds * 1000))//a circle will be positionned in yAxis according to yScale(milliseconds)
                 .attr("r", (d) => 6)//this is the size of the circle
                 .attr("stroke", "black")
-                .attr("fill", "blue")
+                .attr("fill", d=>{
+                    if(d.Doping!="") return "red";
+                    else return "green";
+                })
                 .attr("class", "dot")//it has no effect, only to pass the test, and I prefered not to work with it and work directly with "attr" to control the look just for learning purpose
                 .style("opacity", "0.6")
                 //lets add mouseOver and mouseOut events
@@ -143,6 +158,11 @@
                 })
                 ;
 
+
+
+
+
+
             //V- lets add the big title (and small one beneath it) of the chart
             svg.append("text")
                 .attr("x", w / 2)
@@ -158,6 +178,12 @@
                 .attr("id", "small-title")
                 .style("font-size", "20px")
                 .text("35 Fastest times up Alpe d'Huez");
+
+
+
+
+
+
 
             //VI- lets add the title of the yAxis
             svg.append("text")
