@@ -193,8 +193,20 @@
                 .attr("id", "y-axis-title")
                 .style("font-size", "16px")
                 .text("Time in Minutes")
-                .attr("transform", "rotate(-90)")
+                .attr("transform", "rotate(-90)");
 
+
+
+                //VII- lets add the #legend which is an area that contains colors and a descriptive text .. I'll use a rect element to do this   
+                //1 adding a "g" svg element which will serve as legend             
+                const legend = svg.append("g").attr("id", "legend").attr("width", "300").attr("height", "60").attr("x", "600").attr("y", "100");
+                //2- adding 2 "circle" svg elements
+                legend.append("circle").attr("r", 8).attr("cx", "650").attr("cy", "110").attr("fill", "green").attr("stroke", "black").style("opacity", "0.6");
+                legend.append("circle").attr("r", 8).attr("cx", "650").attr("cy", "135").attr("fill", "red").attr("stroke", "black").style("opacity", "0.6");
+                //3- adding 2 "text" svg elements
+                legend.append("text").attr("x", "665").attr("y", "115").style("opacity", "0.6").text("No doping allegations");
+                legend.append("text").attr("x", "665").attr("y", "140").style("opacity", "0.6").text("Riders with doping allegations");
+                
         }
 
     </script>
